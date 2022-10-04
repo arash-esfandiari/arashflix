@@ -1,6 +1,7 @@
 const API_KEY = "2ff6d23d92f7d43afe0fcb53709a3ec1";
 
 const requests = {
+    base_url: "https://images.tmdb.org/t/p/original/",
     fetchTrending: `/trending/all/week?api_key=${API_KEY}&language=en-US`,
     fetchNetflixOriginals: `/discover/tv?api_key=${API_KEY}&with_networks=213`,
     fetchTopRated: `/movie/top_rated?api_key=${API_KEY}&language=en-US`,
