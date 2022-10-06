@@ -2,9 +2,10 @@ import React, { useEffect, useState } from 'react';
 import axios from './axios';
 import './Row.css';
 import YouTube from 'react-youtube';
+import movieTrailer from 'movie-trailer';
 
 
-function Row({ title, fetchUrl, isLargeRow, trailerUrl }) {
+function Row({ title, fetchUrl, isLargeRow }) {
     const [movies, setMovies] = useState([]);
     const base_url = "https://images.tmdb.org/t/p/original/";
     const [trailerUrl, setTrailerUrl] = useState("");
@@ -29,8 +30,17 @@ function Row({ title, fetchUrl, isLargeRow, trailerUrl }) {
     }
 
     const handleClick = (movie) => {
-
-    }
+        if (trailerUrl) {
+            setTrailerUrl("");
+        } else {
+            movieTrailer(movie?.name || "")
+                .then((url) => {
+                    const urlParams = new URLSearchParams(new URL(url).search);
+                    setTrailerUrl(urlParams.get("v"));
+                })
+                .catch((error) => console.log(error));
+        }
+    };
 
     return (
         <div className='row'>
@@ -46,7 +56,7 @@ function Row({ title, fetchUrl, isLargeRow, trailerUrl }) {
                 ))}
 
             </div>
-            {trailerUrl && <YouTube videoId={trailerUrl} opt={opts} />}
+            {<YouTube videoId={trailerUrl} opt={opts} />}
             {/* container -> posters */}
 
         </div>
